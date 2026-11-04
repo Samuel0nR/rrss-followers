@@ -21,9 +21,11 @@ export const FileUploadComponent = ({ onProcessed }: Props) => {
   const chooseFiles = (files: File[]) => {
     if (!files.length) return;
     const isOneZip = files.length === 1 && files[0].name.toLowerCase().endsWith(".zip");
-    const areJson = files.every((file) => file.name.toLowerCase().endsWith(".json"));
-    if (!isOneZip && !areJson) {
-      setError("Selecciona un ZIP de Instagram o varios JSON de la exportación.");
+    const jsonFiles = files.filter((file) => file.name.toLowerCase().endsWith(".json"));
+    const images = files.filter((file) => /\.(?:jpe?g|png|webp)$/i.test(file.name));
+    const areSupported = jsonFiles.length > 0 && jsonFiles.length + images.length === files.length;
+    if (!isOneZip && !areSupported) {
+      setError("Selecciona un ZIP de Instagram, o los JSON de la exportación junto con la foto de perfil (opcional).");
       return;
     }
     if (files.some((file) => file.size > 500 * 1024 * 1024)) {
@@ -51,6 +53,9 @@ export const FileUploadComponent = ({ onProcessed }: Props) => {
     finally { setProcessing(false); }
   };
 
+  const jsonCount = selected.filter((file) => file.name.toLowerCase().endsWith(".json")).length;
+  const imageCount = selected.length - jsonCount;
+
   return (
     <div
       className={`dropzone ${dragging ? "dropzone--active" : ""} ${selected.length ? "file-selected" : ""}`}
@@ -68,7 +73,7 @@ export const FileUploadComponent = ({ onProcessed }: Props) => {
       <input
         ref={inputRef}
         type="file"
-        accept=".zip,.json,application/zip,application/json,application/x-zip-compressed"
+        accept=".zip,.json,.jpg,.jpeg,.png,.webp,application/zip,application/json,image/jpeg,image/png,image/webp,application/x-zip-compressed"
         multiple
         onChange={onInputChange}
         hidden
@@ -80,7 +85,7 @@ export const FileUploadComponent = ({ onProcessed }: Props) => {
           </div>
           <div className="file-info">
             <span className="file-status">
-              <Check size={12} /> {selected.length === 1 && selected[0].name.toLowerCase().endsWith(".zip") ? "ZIP SELECCIONADO" : `${selected.length} JSON SELECCIONADOS`}
+              <Check size={12} /> {selected.length === 1 && selected[0].name.toLowerCase().endsWith(".zip") ? "ZIP SELECCIONADO" : `${jsonCount} JSON SELECCIONADOS${imageCount ? ` + ${imageCount} ${imageCount > 1 ? "FOTOS" : "FOTO"}` : ""}`}
             </span>
             <strong>{selected.length === 1 ? selected[0].name : selected.map((file) => file.name).join(", ")}</strong>
             <small>
@@ -121,7 +126,7 @@ export const FileUploadComponent = ({ onProcessed }: Props) => {
             Elegir archivo <ArrowRight size={16} />
           </button>
           <div className="file-hint">
-            <FileArchive size={13} /> ZIP completo <span>o</span> <FileJson size={13} /> JSON sueltos <span>·</span> Máx. 500 MB por archivo
+            <FileArchive size={13} /> ZIP completo <span>o</span> <FileJson size={13} /> JSON + foto <span>·</span> Máx. 500 MB por archivo
           </div>
         </>
       )}

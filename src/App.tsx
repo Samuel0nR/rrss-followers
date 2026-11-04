@@ -22,6 +22,13 @@ export default function App() {
     return () => window.removeEventListener("popstate", syncRoute);
   }, []);
 
+  useEffect(() => {
+    const avatarUrl = results.account?.avatarUrl;
+    return () => {
+      if (avatarUrl) URL.revokeObjectURL(avatarUrl);
+    };
+  }, [results]);
+
   const goHome = () => {
     window.history.pushState({}, "", "/");
     setIsDetail(false);

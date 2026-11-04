@@ -847,7 +847,8 @@ button {
   background: #ffffff06;
 }
 .account-avatar, .user-avatar, .empty-icon { display: grid; place-items: center; flex-shrink: 0; }
-.account-avatar { width: 42px; height: 42px; color: var(--lime); background: #d8ff3e12; border-radius: 50%; }
+.account-avatar { width: 42px; height: 42px; color: var(--lime); background: #d8ff3e12; border-radius: 50%; overflow: hidden; }
+.account-avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .account-card small, .account-card strong { display: block; }
 .account-card small { color: #858192; font: 8px "DM Mono", monospace; letter-spacing: .08em; margin-bottom: 5px; }
 .account-card strong { font-size: 12px; }
@@ -872,6 +873,25 @@ button {
 .user-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 30px; }
 .user-list li { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 13px 2px; border-bottom: 1px solid #ffffff0c; font-size: 12px; overflow-wrap: anywhere; }
 .user-avatar { width: 32px; height: 32px; border-radius: 50%; color: var(--lime); background: #d8ff3e12; font-size: 11px; }
+.user-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; padding-left: 8px; }
+.user-action {
+  display: grid; place-items: center;
+  width: 32px; height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  color: #9692a3;
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
+}
+.user-action:hover, .user-action:focus-visible { color: var(--lime); border-color: #d8ff3e59; background: #d8ff3e0d; }
+.user-action--done { color: var(--lime); border-color: #d8ff3e59; background: #d8ff3e0d; }
+@media (hover: hover) {
+  .user-actions { opacity: .55; transition: opacity .18s ease; }
+  .user-list li:hover .user-actions, .user-list li:focus-within .user-actions { opacity: 1; }
+}
 .results-empty { min-height: 235px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .empty-icon { width: 48px; height: 48px; margin-bottom: 14px; border: 1px solid #d8ff3e38; color: var(--lime); background: #d8ff3e0b; border-radius: 50%; }
 .results-empty strong { font-size: 13px; }
