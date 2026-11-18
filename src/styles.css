@@ -134,13 +134,22 @@ button {
   display: flex;
   gap: 8px;
   align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: inherit;
   color: #e7e4ed;
   text-decoration: none;
   font-size: 12px;
+  cursor: pointer;
   transition: color 0.2s;
 }
 .nav-link:hover {
   color: var(--lime);
+}
+.nav-link:focus-visible {
+  outline: 1px solid var(--lime);
+  outline-offset: 4px;
 }
 .hero {
   min-height: 570px;
@@ -795,6 +804,33 @@ button {
   color: #777384;
   margin: 20px 0 0;
 }
+.how-modal {
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(85vh, 720px);
+  overflow: auto;
+  padding: 24px;
+  border: 1px solid #3a3548;
+  background: linear-gradient(130deg, #17141f, #111117);
+  color: #f4f2f7;
+  font-family: inherit;
+}
+.how-modal::backdrop {
+  background: rgba(8, 7, 12, 0.72);
+  backdrop-filter: blur(3px);
+}
+.how-modal[open] {
+  animation: how-modal-in 0.18s ease-out;
+}
+@keyframes how-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 .trust-strip {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -1054,6 +1090,13 @@ button {
   }
   .nav-link {
     font-size: 11px;
+  }
+  .how-modal {
+    padding: 18px;
+  }
+  .how-modal .steps {
+    grid-template-columns: 1fr;
+    gap: 17px;
   }
   .hero {
     grid-template-columns: 1fr;

@@ -1,7 +1,10 @@
 import { Orbit, ArrowDownRight } from "lucide-react";
-import type { ShowHowType } from "../../types/ShowHow.type";
 
-export const Navbar = (props: ShowHowType) => {
+type Props = {
+  onOpenHow: () => void;
+};
+
+export const Navbar = ({ onOpenHow }: Props) => {
   return (
     <nav className="topbar" aria-label="Navegación principal">
       <a className="mark" href="#top" aria-label="Inicio">
@@ -16,16 +19,14 @@ export const Navbar = (props: ShowHowType) => {
         <span className="beta-tag">
           <i /> WEB BETA
         </span>
-        <a
+        <button
           className="nav-link"
-          href="#how"
-          onClick={(e) => {
-            e.preventDefault();
-            props.setShowHow((v) => !v);
-          }}
+          type="button"
+          aria-haspopup="dialog"
+          onClick={onOpenHow}
         >
           Cómo funciona <ArrowDownRight size={15} />
-        </a>
+        </button>
       </div>
     </nav>
   );

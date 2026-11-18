@@ -4,6 +4,7 @@ import { Navbar } from "./components/navbar/Navbar";
 import { Footer } from "./components/footer/Footer";
 import { BannerConfidential } from "./components/banner/BannerConfident";
 import { ComoCargarArchivos } from "./components/tutorial/CargarArchivos";
+import { HowModal } from "./components/tutorial/HowModal";
 
 import { CargaArchivosPage } from "./pages/carga-archivo/CargaArchivos";
 import { MainApp } from "./pages/main/MainApp";
@@ -13,6 +14,7 @@ const emptyResults: SocialResults = { followers: [], following: [] };
 
 export default function App() {
   const [showHow, setShowHow] = useState(false);
+  const [howModalOpen, setHowModalOpen] = useState(false);
   const [isDetail, setIsDetail] = useState(() => window.location.pathname.replace(/\/$/, "").endsWith("/detalle-archivo"));
   const [results, setResults] = useState<SocialResults>(emptyResults);
 
@@ -43,7 +45,7 @@ export default function App() {
 
   return (
     <main className="site-shell">
-      <Navbar ShowHow={showHow} setShowHow={setShowHow} />
+      <Navbar onOpenHow={() => setHowModalOpen(true)} />
 
       {isDetail ? (
         <DetalleArchivo results={results} onBack={goHome} />
@@ -55,6 +57,8 @@ export default function App() {
           <BannerConfidential />
         </>
       )}
+
+      <HowModal open={howModalOpen} onClose={() => setHowModalOpen(false)} />
 
       {/* Footer */}
       <Footer />
