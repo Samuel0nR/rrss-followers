@@ -9,6 +9,7 @@ import { HowModal } from "./components/tutorial/HowModal";
 import { CargaArchivosPage } from "./pages/carga-archivo/CargaArchivos";
 import { MainApp } from "./pages/main/MainApp";
 import { DetalleArchivo, type SocialResults } from "./pages/detalle-archivo/DetalleArchivo";
+import { PrivacyPolicyPage } from "./pages/privacidad/PrivacyPolicy";
 
 const emptyResults: SocialResults = { followers: [], following: [] };
 
@@ -16,10 +17,15 @@ export default function App() {
   const [showHow, setShowHow] = useState(false);
   const [howModalOpen, setHowModalOpen] = useState(false);
   const [isDetail, setIsDetail] = useState(() => window.location.pathname.replace(/\/$/, "").endsWith("/detalle-archivo"));
+  const [isPrivacy, setIsPrivacy] = useState(() => window.location.pathname.replace(/\/$/, "") === "/privacidad");
   const [results, setResults] = useState<SocialResults>(emptyResults);
 
   useEffect(() => {
-    const syncRoute = () => setIsDetail(window.location.pathname.replace(/\/$/, "").endsWith("/detalle-archivo"));
+    const syncRoute = () => {
+      const path = window.location.pathname.replace(/\/$/, "") || "/";
+      setIsDetail(path.endsWith("/detalle-archivo"));
+      setIsPrivacy(path === "/privacidad");
+    };
     window.addEventListener("popstate", syncRoute);
     return () => window.removeEventListener("popstate", syncRoute);
   }, []);
@@ -31,15 +37,29 @@ export default function App() {
     };
   }, [results]);
 
+  useEffect(() => {
+    document.title = isPrivacy ? "Privacidad — Sin filtros" : isDetail ? "Tu resumen social — Sin filtros" : "Sin filtros — Instagram follower check";
+  }, [isDetail, isPrivacy]);
+
   const goHome = () => {
     window.history.pushState({}, "", "/");
     setIsDetail(false);
+    setIsPrivacy(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goPrivacy = () => {
+    window.history.pushState({}, "", "/privacidad");
+    setIsDetail(false);
+    setIsPrivacy(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const showResults = (nextResults: SocialResults) => {
     setResults(nextResults);
     window.history.pushState({}, "", "/detalle-archivo");
     setIsDetail(true);
+    setIsPrivacy(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -47,7 +67,9 @@ export default function App() {
     <main className="site-shell">
       <Navbar onOpenHow={() => setHowModalOpen(true)} />
 
-      {isDetail ? (
+      {isPrivacy ? (
+        <PrivacyPolicyPage onBack={goHome} />
+      ) : isDetail ? (
         <DetalleArchivo results={results} onBack={goHome} />
       ) : (
         <>
@@ -61,7 +83,7 @@ export default function App() {
       <HowModal open={howModalOpen} onClose={() => setHowModalOpen(false)} />
 
       {/* Footer */}
-      <Footer />
+      <Footer onPrivacyClick={goPrivacy} />
     </main>
   );
 }

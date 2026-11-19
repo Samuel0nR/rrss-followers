@@ -16,9 +16,6 @@ export const Navbar = ({ onOpenHow }: Props) => {
         </span>
       </a>
       <div className="topbar-right">
-        <span className="beta-tag">
-          <i /> WEB BETA
-        </span>
         <button
           className="nav-link"
           type="button"
