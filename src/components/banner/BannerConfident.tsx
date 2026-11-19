@@ -27,11 +27,6 @@ export const BannerConfidential = () => {
         </span>
       </div>
       
-      <div className="trust-aside">
-        LESS ACCESS.
-        <br />
-        <span>MORE CLARITY.</span>
-      </div>
     </section>
   );
 };

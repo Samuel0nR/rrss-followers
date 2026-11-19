@@ -31,7 +31,7 @@ export const MainApp = () => {
         aria-label="Ilustración abstracta de conexiones sociales"
       >
         <div className="stage-label stage-label--top">
-          CONNECTIONS / DETECTED
+          VÍNCULOS / DETECTADOS
         </div>
         <div className="orbit orbit--outer">
           <span className="orbit-dot orbit-dot--lime" />
@@ -47,7 +47,7 @@ export const MainApp = () => {
         <div className="core-card">
           <div className="core-card-top">
             <span className="core-star">✳</span>
-            <span>YOUR SOCIAL GRAPH</span>
+            <span>TU CÍRCULO SOCIAL</span>
           </div>
           <div className="core-glyph">
             <span />
@@ -59,7 +59,7 @@ export const MainApp = () => {
             <span />
           </div>
           <div className="core-card-bottom">
-            <span>NO LOGIN REQUIRED</span>
+            <span>SIN INICIAR SESIÓN</span>
             <span className="live-dot" />
           </div>
         </div>
@@ -83,9 +83,7 @@ export const MainApp = () => {
         </div>
         <span className="stage-cross stage-cross--one">+</span>
         <span className="stage-cross stage-cross--two">+</span>
-        <div className="stage-label stage-label--bottom">
-          FIG. 01 <span>YOUR PEOPLE, YOUR DATA.</span>
-        </div>
+
       </div>
     </section>
   );
